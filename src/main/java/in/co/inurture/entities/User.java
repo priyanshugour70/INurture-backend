@@ -1,7 +1,8 @@
 package in.co.inurture.entities;
 
-
-import jakarta.persistence.*;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.*;
 
 
@@ -11,11 +12,11 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private String userId;
 
     @Column(name = "user_name")
@@ -35,6 +36,10 @@ public class User {
     @Column(length = 1000)
     private String about;
 
+    @Column(length = 10)
+    private String roles;
+
+    @Column(length = 100)
     private String domain;
 
     @Column(length = 500)
@@ -45,5 +50,6 @@ public class User {
 
     @Column(name = "user_password", length = 10)
     private String password;
+
 
 }

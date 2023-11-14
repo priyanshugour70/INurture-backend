@@ -1,33 +1,42 @@
 package in.co.inurture.services;
 
+
 import in.co.inurture.dtos.PageableResponse;
 import in.co.inurture.dtos.UserDto;
+import in.co.inurture.entities.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
 
-
-    // Create User
+    //create
     UserDto createUser(UserDto userDto);
 
-    // Update User
+
+    //update
     UserDto updateUser(UserDto userDto, String userId);
 
-    // Delete User
+    //delete
     void deleteUser(String userId);
 
-    // Get All Users
+
+    //get all users
     PageableResponse<UserDto> getAllUser(int pageNumber, int pageSize, String sortBy, String sortDir);
 
-    // Get Single User by ID
+
+
+    //get single user by id
     UserDto getUserById(String userId);
 
-    // Get Single user by email
+    //get  single user by email
     UserDto getUserByEmail(String email);
 
-    // Search Users
+    //search user
     List<UserDto> searchUser(String keyword);
 
-    // other user specific features
+    //other user specific features
+
+    Optional<User> findUserByEmailOptional(String email);
+
 }

@@ -1,6 +1,5 @@
 package in.co.inurture.services.impl;
 
-
 import in.co.inurture.dtos.PageableResponse;
 import in.co.inurture.dtos.UserDto;
 import in.co.inurture.entities.User;
@@ -25,9 +24,9 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -41,21 +40,23 @@ public class UserServiceImpl implements UserService {
     @Value("${user.profile.image.path}")
     private String imagePath;
 
+
+
     private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 
     @Override
     public UserDto createUser(UserDto userDto) {
 
-        // Generate Unique id in string format..!
+        //generate unique id in string format
         String userId = UUID.randomUUID().toString();
         userDto.setUserId(userId);
 
-        // Dto To Entity
+        // dto->entity
         User user = dtoToEntity(userDto);
-        User savedUser = userRepository.save(user);
 
-        // Entity To Dto
+        User savedUser = userRepository.save(user);
+        //entity -> dto
         UserDto newDto = entityToDto(savedUser);
         return newDto;
     }
@@ -63,128 +64,91 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(UserDto userDto, String userId) {
-
-        // Get Data using Id
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User Not Found with given Id !! "));
-
-
-        // Set Data
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with given id !!"));
         user.setName(userDto.getName());
-//        user.setEmployeeId(userDto.getEmployeeId());
-//        user.setEmail(userDto.getEmail());
+        // employeeId
+        user.setEmail(userDto.getEmail());
         user.setGender(userDto.getGender());
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setAbout(userDto.getAbout());
+        // role
         user.setDomain(userDto.getDomain());
         user.setAddress(userDto.getAddress());
-        user.setImageName(userDto.getImageName());
         user.setPassword(userDto.getPassword());
-
-        // Save Data..
+        user.setImageName(userDto.getImageName());
+        //save data
         User updatedUser = userRepository.save(user);
         UserDto updatedDto = entityToDto(updatedUser);
         return updatedDto;
     }
 
-
     @Override
     public void deleteUser(String userId) {
-
-        // Get Data using Id
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User Not Found with given Id !! "));
-
-        // delete user profile image..
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with given id !!"));
+        //delete user profile image
+        //images/user/abc.png
         String fullPath = imagePath + user.getImageName();
 
-        try{
+        try {
             Path path = Paths.get(fullPath);
             Files.delete(path);
-        }catch (NoSuchFileException ex){
-            logger.info("User Image not found in folder..!");
+        } catch (NoSuchFileException ex) {
+            logger.info("User image not found in folder");
             ex.printStackTrace();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        // Delete User
+        //delete user
         userRepository.delete(user);
-    }
 
+    }
 
     @Override
     public PageableResponse<UserDto> getAllUser(int pageNumber, int pageSize, String sortBy, String sortDir) {
 
         Sort sort = (sortDir.equalsIgnoreCase("desc")) ? (Sort.by(sortBy).descending()) : (Sort.by(sortBy).ascending());
+//        pageNumber default starts from 0
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
 
-        // Page Number default starts form 0
-        Pageable pageable = PageRequest.of(pageNumber,pageSize, sort);
         Page<User> page = userRepository.findAll(pageable);
 
         PageableResponse<UserDto> response = Helper.getPageableResponse(page, UserDto.class);
 
         return response;
-    }
 
+    }
 
     @Override
     public UserDto getUserById(String userId) {
-
-        // Get Data using Id
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User Not Found with given Id !! "));
-
-        UserDto userDto = entityToDto(user);
-        return userDto;
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user not found with given id !!"));
+        return entityToDto(user);
     }
 
     @Override
     public UserDto getUserByEmail(String email) {
-
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User Not Found with given Email id"));
-        UserDto userDto = entityToDto(user);
-
-        return userDto;
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found with given email id !!"));
+        return entityToDto(user);
     }
 
     @Override
     public List<UserDto> searchUser(String keyword) {
-
         List<User> users = userRepository.findByNameContaining(keyword);
         List<UserDto> dtoList = users.stream().map(user -> entityToDto(user)).collect(Collectors.toList());
-
         return dtoList;
     }
 
+    @Override
+    public Optional<User> findUserByEmailOptional(String email) {
+        return userRepository.findByEmail(email);
+    }
 
-    // Practice ...
     private UserDto entityToDto(User savedUser) {
-
-//        UserDto userDto = UserDto.builder()
-//                .userId(savedUser.getUserId())
-//                .name(savedUser.getName())
-//                .email(savedUser.getEmail())
-//                .password(savedUser.getPassword())
-//                .about(savedUser.getAbout())
-//                .gender(savedUser.getGender())
-//                .imageName(savedUser.getImageName())
-//                .build();
-//        return userDto;
-
         return mapper.map(savedUser, UserDto.class);
+
     }
 
     private User dtoToEntity(UserDto userDto) {
-//        User user = User.builder()
-//                .userId(userDto.getUserId())
-//                .name(userDto.getName())
-//                .email(userDto.getEmail())
-//                .password(userDto.getPassword())
-//                .about(userDto.getAbout())
-//                .gender(userDto.getGender())
-//                .imageName(userDto.getImageName())
-//                .build();
-//        return user;
-
         return mapper.map(userDto, User.class);
     }
 }
-

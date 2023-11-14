@@ -2,11 +2,12 @@ package in.co.inurture.dtos;
 
 
 import in.co.inurture.validate.ImageNameValid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import javax.persistence.Column;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -34,8 +35,11 @@ public class UserDto {
     @Size(min = 10, max = 12, message = "Invalid Phone Number ..!!")
     private String phoneNumber;
 
-    @NotBlank(message = "Write Somthing about yourself..!!")
+    @NotBlank(message = "Write Something about yourself..!!")
     private String about;
+
+    @Size(min =2, max = 20, message = "Invalid User Role")
+    private String roles;
 
     @Size(min = 2, max = 20, message = "Invalid Domain ..!!")
     private String domain;

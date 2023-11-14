@@ -1,7 +1,5 @@
 package in.co.inurture.exceptions;
 
-
-
 import in.co.inurture.dtos.ApiResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,40 +18,41 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+
+    //handler resource not found
     private Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    // Handler Resource not found Exception..!
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiResponseMessage> resourceNotFoundExceptionHandler(ResourceNotFoundException ex){
-
+    public ResponseEntity<ApiResponseMessage> resourceNotFoundExceptionHandler(ResourceNotFoundException ex) {
         logger.info("Exception Handler invoked !!");
         ApiResponseMessage response = ApiResponseMessage.builder().message(ex.getMessage()).status(HttpStatus.NOT_FOUND).success(true).build();
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity(response, HttpStatus.NOT_FOUND);
+
     }
 
-
-    // MethodArgumentNotValidException
+    //MethodArgumentNotValidException
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
-
+    public ResponseEntity<Map<String, Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         List<ObjectError> allErrors = ex.getBindingResult().getAllErrors();
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         allErrors.stream().forEach(objectError -> {
             String message = objectError.getDefaultMessage();
             String field = ((FieldError) objectError).getField();
-            response.put(field,message);
+            response.put(field, message);
         });
-        return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+
     }
 
 
-    // Handle Bad Api Exception..!!
+    //handle bad api exception
     @ExceptionHandler(BadApiRequestException.class)
-    public ResponseEntity<ApiResponseMessage> handleBadApiRequestException(BadApiRequestException ex){
-
-        logger.info("Bad Api Request..!");
+    public ResponseEntity<ApiResponseMessage> handleBadApiRequest(BadApiRequestException ex) {
+        logger.info("Bad api request");
         ApiResponseMessage response = ApiResponseMessage.builder().message(ex.getMessage()).status(HttpStatus.BAD_REQUEST).success(false).build();
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+
     }
 
 }

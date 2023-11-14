@@ -1,6 +1,5 @@
 package in.co.inurture.dtos;
 
-
 import lombok.*;
 import org.springframework.http.HttpStatus;
 
