@@ -29,13 +29,13 @@ public interface UniversityService {
 
 
     //create University with Zones
-    UniversityDto createWithZone(UniversityDto productDto,String categoryId);
+    UniversityDto createWithZone(UniversityDto universityDto,String zoneId);
 
 
     //update Zone of University
-    UniversityDto updateZone(String productId,String categoryId);
+    UniversityDto updateZone(String universityId,String zoneId);
 
-    PageableResponse<UniversityDto> getAllOfZone(String categoryId,int pageNumber,int pageSize,String sortBy, String sortDir);
+    PageableResponse<UniversityDto> getAllOfZone(String zoneId,int pageNumber,int pageSize,String sortBy, String sortDir);
 
     //other methods
 

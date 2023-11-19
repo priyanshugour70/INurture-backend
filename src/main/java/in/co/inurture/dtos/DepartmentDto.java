@@ -1,17 +1,19 @@
 package in.co.inurture.dtos;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 import lombok.*;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class UniversityDto {
-    private String universityId;
+public class DepartmentDto {
+
+    private String departmentId;
 
     @NotBlank(message = "title is required !!")
     @Size(min = 4, message = "title must be of minimum 4 characters")
@@ -20,7 +22,6 @@ public class UniversityDto {
     @NotBlank(message = "Description required !!")
     private String description;
 
-    @NotBlank(message = "Address required !!")
-    private String address;
-    private ZoneDto zone;
+    private UniversityDto university;
+
 }

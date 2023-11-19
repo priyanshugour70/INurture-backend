@@ -83,7 +83,6 @@ public class ZoneController {
             @PathVariable("zoneId") String zoneId,
             @RequestBody UniversityDto dto
     ) {
-        System.out.println(zoneId);
         UniversityDto universityWithZone = universityService.createWithZone(dto, zoneId);
         return new ResponseEntity<>(universityWithZone, HttpStatus.CREATED);
     }

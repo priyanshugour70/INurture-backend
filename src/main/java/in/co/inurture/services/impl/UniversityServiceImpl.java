@@ -50,7 +50,7 @@ public class UniversityServiceImpl implements UniversityService {
     @Override
     public UniversityDto update(UniversityDto universityDto, String universityId) {
 
-        //fetch the product of given id
+        //fetch the univeristy of given id
         University university = universityRepository.findById(universityId).orElseThrow(() -> new ResourceNotFoundException("University not found of given Id !!"));
         university.setTitle(universityDto.getTitle());
         university.setDescription(universityDto.getDescription());
@@ -62,14 +62,14 @@ public class UniversityServiceImpl implements UniversityService {
     }
 
     @Override
-    public void delete(String productId) {
-        University university = universityRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("University not found of given Id !!"));
+    public void delete(String universityId) {
+        University university = universityRepository.findById(universityId).orElseThrow(() -> new ResourceNotFoundException("University not found of given Id !!"));
         universityRepository.delete(university);
     }
 
     @Override
-    public UniversityDto get(String productId) {
-        University university = universityRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found of given Id !!"));
+    public UniversityDto get(String universityId) {
+        University university = universityRepository.findById(universityId).orElseThrow(() -> new ResourceNotFoundException("Product not found of given Id !!"));
         return mapper.map(university, UniversityDto.class);
     }
 
