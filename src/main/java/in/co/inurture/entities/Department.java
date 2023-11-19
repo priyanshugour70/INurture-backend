@@ -3,6 +3,9 @@ package in.co.inurture.entities;
 import javax.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -23,5 +26,8 @@ public class Department {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "university_id")
     private  University university;
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Classroom> classrooms = new ArrayList<>();
 
 }

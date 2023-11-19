@@ -4,7 +4,6 @@ package in.co.inurture.dtos;
 import in.co.inurture.validate.ImageNameValid;
 import lombok.*;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;

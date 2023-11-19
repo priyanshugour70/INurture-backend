@@ -4,7 +4,6 @@ import in.co.inurture.dtos.ApiResponseMessage;
 import in.co.inurture.dtos.PageableResponse;
 import in.co.inurture.dtos.UniversityDto;
 import in.co.inurture.dtos.ZoneDto;
-import in.co.inurture.entities.University;
 import in.co.inurture.services.UniversityService;
 import in.co.inurture.services.ZoneService;
 import org.springframework.beans.factory.annotation.Autowired;

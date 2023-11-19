@@ -2,9 +2,6 @@ package in.co.inurture.services;
 
 import in.co.inurture.dtos.PageableResponse;
 import in.co.inurture.dtos.UniversityDto;
-import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 public interface UniversityService {
 

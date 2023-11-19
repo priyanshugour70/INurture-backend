@@ -68,7 +68,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public DepartmentDto get(String departmentId) {
-        Department department = departmentRepository.findById(departmentId).orElseThrow(() -> new ResourceNotFoundException("Product not found of given Id !!"));
+        Department department = departmentRepository.findById(departmentId).orElseThrow(() -> new ResourceNotFoundException("Department not found of given Id !!"));
         return mapper.map(department, DepartmentDto.class);
     }
 
