@@ -1,12 +1,16 @@
 package in.co.inurture.dtos;
 
 
+import in.co.inurture.entities.Role;
 import in.co.inurture.validate.ImageNameValid;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,6 +22,7 @@ public class UserDto {
     private String userId;
 
     @Size(min = 3, max = 20, message = "Invalid Name !!")
+    @ApiModelProperty(value = "user_name", name = "username", required = true, notes = "user name of new user !!")
     private String name;
 
     @Size(min = 5, max = 15, message = "Invalid Employee ID !!")
@@ -37,8 +42,7 @@ public class UserDto {
     @NotBlank(message = "Write Something about yourself..!!")
     private String about;
 
-    @Size(min =2, max = 20, message = "Invalid User Role")
-    private String roles;
+    private Set<RoleDto> roles = new HashSet<>();
 
     @Size(min = 2, max = 20, message = "Invalid Domain ..!!")
     private String domain;
